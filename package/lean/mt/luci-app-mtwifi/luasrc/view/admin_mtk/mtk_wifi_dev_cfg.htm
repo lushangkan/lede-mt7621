@@ -386,12 +386,17 @@ if next(diff) ~= nil then
     <fieldset class="cbi-section">
         <legend> 无线参数（直接修改无线配置）</legend>
         <p> <span style="color: red"><b>警告</b></span> : 如果你不了解请不要修改!</p>
-        <textarea name="raw" id="raw" style="width:98%; height: 200px;"><%
-            local fd = io.open(dev.profile)
-            for line in fd:lines() do
-                print(line)
-            end
-        %></textarea>
+        <textarea name="raw" id="raw" style="width:98%; height: 200px;">
+            <%
+                local fd = io.open(dev.profile)
+                local content = ""
+                for line in fd:lines() do
+                    content = content .. line .. "\n"
+                end
+                fd:close()
+                luci.http.write(content)
+            %>
+        </textarea>
     </fieldset>
     <div class="cbi-page-actions">
         <input class="cbi-button cbi-button-reset" value="重置" onclick="location.href='<%=luci.dispatcher.build_url("admin", "network", "wifi", "dev_cfg_view", devname)%>'" type="button" />
@@ -472,7 +477,7 @@ if next(diff) ~= nil then
     }
 
     function getCountryRegionList(mode) {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "network", "wifi", "get_country_region_list")%>', 'mode='+mode,
+        XHR.get('<%=luci.dispatcher.build_url("admin", "network", "wifi", "get_country_region_list")%>', { mode },
             function(x)
             {
                 //console.log(x);
@@ -497,7 +502,7 @@ if next(diff) ~= nil then
     }
 
     function getChannelList(mode, country_region) {
-        XHR.get('<%=luci.dispatcher.build_url("admin", "network", "wifi", "get_channel_list")%>', 'mode='+mode+'&country_region='+country_region,
+        XHR.get('<%=luci.dispatcher.build_url("admin", "network", "wifi", "get_channel_list")%>', { mode, country_region },
             function(x)
             {
                 console.log(x);
@@ -616,7 +621,7 @@ if next(diff) ~= nil then
         mode = mode.value*1;
 
         var cr = GetCountryRegion(mode);
-        XHR.get('<%=luci.dispatcher.build_url("admin", "network", "wifi", "get_5G_2nd_80Mhz_channel_list")%>', 'ch_cur='+ch+'&country_region='+cr,
+        XHR.get('<%=luci.dispatcher.build_url("admin", "network", "wifi", "get_5G_2nd_80Mhz_channel_list")%>', { "ch_cur": ch, "country_region": cr },
             function(x)
             {
                 //console.log(x);
@@ -658,7 +663,7 @@ if next(diff) ~= nil then
         mode = mode.value*1;
 
         var cr = GetCountryRegion(mode);
-        XHR.get('<%=luci.dispatcher.build_url("admin", "network", "wifi", "get_HT_ext_channel_list")%>', 'ch_cur='+ch+'&country_region='+cr,
+        XHR.get('<%=luci.dispatcher.build_url("admin", "network", "wifi", "get_HT_ext_channel_list")%>', { "ch_cur": ch, "country_region": cr },
             function(x)
             {
                 console.log(x);
