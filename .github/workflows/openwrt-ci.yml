@@ -58,9 +58,9 @@ jobs:
         run: |
           echo "src-git shidahuilang https://github.com/shidahuilang/openwrt-package;Lede" >> ./feeds.conf.default
           echo "src-git openclash https://github.com/vernesong/OpenClash.git" >> ./feeds.conf.default
-      - name: Copy clk patch file
-        run: |
-          cp -rf ./custom/102-mt7621-fix-cpu-clk-add-clkdev.patch ./target/linux/ramips/patches-5.4/
+#      - name: Copy clk patch file
+#        run: |
+#          cp -rf ./custom/102-mt7621-fix-cpu-clk-add-clkdev.patch ./target/linux/ramips/patches-5.4/
 #       - name: Change linux kenel version
 #         run: |
 #           sed -i 's/5.4/5.15/g' ./target/linux/ramips/Makefile
