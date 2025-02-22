@@ -61,6 +61,8 @@ jobs:
 #      - name: Copy clk patch file
 #        run: |
 #          cp -rf ./custom/102-mt7621-fix-cpu-clk-add-clkdev.patch ./target/linux/ramips/patches-5.4/
+      - name: Patch network interface
+        run: patch ./target/linux/ramips/mt7621/base-files/etc/board.d/02_network ./custom/02_network.patch
 #       - name: Change linux kenel version
 #         run: |
 #           sed -i 's/5.4/5.15/g' ./target/linux/ramips/Makefile
